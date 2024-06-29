@@ -1,0 +1,9 @@
+.table{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.slanted-icon {
+    transform: rotate(-45deg); /* Rotate the icon by -45 degrees */
+  }

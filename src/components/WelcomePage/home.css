@@ -1,0 +1,105 @@
+.welcome{
+    height: 450px;
+    background-color:#CAF3F9;
+    
+}
+
+.studentImg{
+    float: right;
+    width: 55%;
+    height: 70%;
+    margin: 0px;
+}
+
+.skill{
+    font-weight: 800;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 40px;
+    font-style: italic;
+
+}
+
+.skillDiv{
+    padding-top: 25vh;
+    
+}
+
+.over{
+    font-size: 60px;
+    font-weight: 800;
+    font-style: italic;
+    font-family: "Josefin Sans", sans-serif;
+    color: #112351;
+}
+
+.details{
+    font-size: 20px;
+    color: black;
+    font-family: "Josefin Sans", sans-serif;
+    line-height: 1.2em;
+    font-weight: 600;
+}
+
+.vv {
+    margin-top: 20px;
+    font-weight: 500;
+    color: white;
+    border: none;
+    padding: 7px 20px;
+    font-size: 18px;
+    border-radius: 20px;
+   position: relative;
+   background-color: #f89048;
+   transition: 0.3s ease-in-out;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0.2);
+}
+
+.vvf {
+    margin-top: 20px;
+    margin-left: 15px;
+    font-weight: 700;
+    color: white;
+    border: none;
+    padding: 10px 34px;
+    font-size: 20px;
+    border-radius: 20px;
+   position: relative;
+   background-color: 	#112351;
+   transition: 0.3s ease-in-out;
+}
+
+
+
+.vacancy h3{
+    text-align: center;
+    font-size: 35px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500px;
+    padding-bottom: 50px;
+    color: #112351;
+}
+
+.advance{
+    margin-bottom: 10px;
+    color:blue;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 600;
+}
+
+.listDiv {
+    display: inline-flex;
+    margin-bottom: 12px;
+}
+
+.icon{
+    padding-right: 10px;
+}
+
+.text{
+    margin-left: 20px;
+    color: black;
+}
+
+.text p{
+    color:black;
+}
