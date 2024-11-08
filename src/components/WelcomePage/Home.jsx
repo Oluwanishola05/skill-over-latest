@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import "../WelcomePage/home.css"
 import comStudent from "../../assets/image/comStudent.png";
@@ -12,12 +12,19 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 import JobVacancy from "../jobVacancy";
 import ContactPage from "./ContactPage";
+import axios, {AxiosResponse} from "axios";
 
 
 
-const Home = () => {
+const Home = () => { 
 
-    
+    // useEffect(() => {
+    //     axios.get('')
+    //     .then((response) => {
+    //         console.log(response.data);
+        
+    //     })
+    // }, [])
     
     return(
         <>
@@ -110,6 +117,8 @@ const Home = () => {
                             
                         </Col>
                     </Row>
+
+                    
                 </Container>
                 
             </div>

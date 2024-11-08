@@ -1,65 +1,103 @@
-import React, {useState} from "react";
-import {Row, Col, Form, FormGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import { Row, Col, Form, FormGroup } from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Login.css";
 import axios from "axios";
-
+import Swal from 'sweetalert2';
+import { CircularProgress } from '@mui/material';
+import { useAuth } from "../AuthContext";
 
 const TrainerLogin = () => {
-
+    const navigate = useNavigate();
+    const { setIsAuthenticated } = useAuth(); // Get setIsAuthenticated from context
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+    const [loading, setLoading] = useState(false);
 
-    const handlePost = (e) => {
-        e.preventDefault()
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
 
-       
+            // Make your API call here
+            const response = await axios.post('https://localhost:7051/api/Auth/TrainerLogin', {
+                email,
+                password,
+            });
 
-        axios.post('https://localhost:7051/api/User/TraineeLogin', {
-            email: email,
-            password: password
-        })
-        .then(result =>{
-            alert(result.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    }
+            const { responseCode, responseMessage, data } = response.data;
 
-    return(
-        <>
+            if (responseCode === 200 && data && data.token) {
+                // Update authentication state
+                sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('email', email); // Store any other user info as needed
+                setIsAuthenticated(true); // Set authentication state to true
+
+                Swal.fire({
+                    title: 'Login Successful!',
+                    text: responseMessage || 'Welcome back!',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                }).then(() => {
+                    navigate('/home'); // Navigate after alert confirmation
+                });
+
+            } else {
+                Swal.fire({
+                    title: 'Login Failed',
+                    text: responseMessage || 'Invalid credentials. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'Try Again',
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.errorMessage || 'Something went wrong. Please try again later.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
         <Container>
-           
             <div className="login">
+                <form className="auth__form" onSubmit={handleLogin}>
+                    <h4 className="log">LOGIN</h4>
+                    <FormGroup className="form__groups" id="formGroup">
+                        <input 
+                            type="email" 
+                            placeholder="Enter your email" 
+                            value={email} 
+                            onChange={e => setEmail(e.target.value)} 
+                            required // Add required attribute for better form validation
+                        />
+                    </FormGroup>
 
-            <form className="auth__form" >
+                    <FormGroup className="form__groups">
+                        <input 
+                            type="password" 
+                            placeholder="Enter your password" 
+                            value={password} 
+                            onChange={e => setPassword(e.target.value)} 
+                            required // Add required attribute for better form validation
+                        />
+                    </FormGroup>
 
-                <h4 className="log">LOGIN</h4>
-                <FormGroup className="form__groups" id="formGroup">
-                  <input type="email" placeholder="Enter your email" value={email} onChange={e=> setEmail(e.target.value)}/>
-                </FormGroup>
-    
-                <FormGroup className="form__groups">
-                    <input type="password" placeholder="Enter your password" value={password} onChange={e=> setPassword(e.target.value)}/>
-                </FormGroup>
-    
-                <div>
-                    <button type="submit" className="btn__login" onClick={handlePost}>
-                        LOGIN
-                    </button>
-                </div>
+                    <div>
+                        <button type="submit" className="btn__login" disabled={loading}>
+                            {loading ? <CircularProgress size={24} thickness={5} style={{ color: '#fff' }} /> : 'LOGIN'}
+                        </button>
+                    </div>
                     <p>Don't have an account? <Link to='/trainerRegister'>Create a trainee account</Link></p>
-                               
-            </form>
-            </div>           
-            
-               
+                </form>
+            </div>
         </Container>
-        </>
-    )
-}
+    );
+};
 
 export default TrainerLogin;

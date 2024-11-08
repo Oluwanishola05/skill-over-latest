@@ -1,0 +1,29 @@
+.imgSize{
+    width: 120%;
+    padding-top: 25px;
+}
+.imageCol {
+    display: flex;
+    align-items: center; /* Center the image vertically */
+    justify-content: center; /* Center the image horizontally */
+}
+
+.jobCol {
+    display: flex;
+    align-items: center; /* Center the form vertically */
+    justify-content: center; /* Center the form horizontally */
+    padding-left: 10px;
+}
+.logs{
+    color: rgb(255, 166, 1);
+    text-align: center;
+    color:e9967a
+    a52a2a
+    
+}
+.typo{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-variant: small-caps;
+    color:#09008b
+
+}
