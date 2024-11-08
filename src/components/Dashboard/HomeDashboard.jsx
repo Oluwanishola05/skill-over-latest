@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SchoolIcon from '@mui/icons-material/School';
 import DoneAllSharpIcon from '@mui/icons-material/DoneAllSharp';
@@ -7,6 +8,73 @@ import RemoveDoneSharpIcon from '@mui/icons-material/RemoveDoneSharp';
 import { Container, Typography, Grid, Paper } from '@mui/material';
 
 const HomeDashboard = () => {
+
+    const [countTrainee, setCountTrainee] = useState([]);
+    const [countTrainer, setCountTrainer] = useState([]);
+    const [countApproveTrainee, setCountsApproveTrainee] = useState([]);
+    const [countApproveTrainer, setCountsApproveTrainer] = useState([]);
+    const [countPendinTrainee, setCountsPendingTrainee] = useState([]);
+    const [countPendingTrainer, setCountsPendingTrainer] = useState([]);
+
+    const fetchTrainings = async () => {
+        try {
+          const response = await axios.get('https://localhost:7051/api/Admin/GetTotalTrainee');
+          console.log('API Response:', response.data);
+          setCountTrainee(response.data.data || []);
+        } catch (error) {
+          console.error("There was an error fetching the training data!", error);
+        } 
+
+        try {
+            const response = await axios.get('https://localhost:7051/api/Admin/GetTotalTrainer');
+            console.log('API Response:', response.data);
+            setCountTrainer(response.data.data || []);
+          } catch (error) {
+            console.error("There was an error fetching the training data!", error);
+        }
+
+        try {
+            const response = await axios.get('https://localhost:7051/api/Admin/GetTotalApproveTrainee');
+            console.log('API Response:', response.data);
+            setCountsApproveTrainee(response.data.data || []);
+          } catch (error) {
+            console.error("There was an error fetching the training data!", error);
+        }
+
+        try {
+            const response = await axios.get('https://localhost:7051/api/Admin/GetTotalApproveTrainer');
+            console.log('API Response:', response.data);
+            setCountsApproveTrainer(response.data.data || []);
+          } catch (error) {
+            console.error("There was an error fetching the training data!", error);
+        }
+
+        try {
+            const response = await axios.get('https://localhost:7051/api/Admin/GetTotalPendingTrainee');
+            console.log('API Response:', response.data);
+            setCountsPendingTrainee(response.data.data || []);
+          } catch (error) {
+            console.error("There was an error fetching the training data!", error);
+        }
+
+        try {
+            const response = await axios.get('https://localhost:7051/api/Admin/GetTotalPendingTrainer');
+            console.log('API Response:', response.data);
+            setCountsPendingTrainer(response.data.data || []);
+          } catch (error) {
+            console.error("There was an error fetching the training data!", error);
+        }
+
+
+
+      };
+    
+      // Fetch data when component mounts
+      useEffect(() => {
+        fetchTrainings();
+      }, []);
+    
+
   return (
     <div>
      <Container>
@@ -22,7 +90,7 @@ const HomeDashboard = () => {
                 <Typography variant="h6" gutterBottom>
                 Total No Of Trainee
                 </Typography>
-                <h3>30</h3>
+                <h1>{countTrainee}</h1>
                 {/* Add charts, data, or other content here */}
             </Paper>
             </Grid>
@@ -33,7 +101,7 @@ const HomeDashboard = () => {
                 <PeopleAltSharpIcon style={{ fontSize: '2.5rem',  color: 'black' }}/>
                 <Typography variant="h6" gutterBottom>Total No Of Trainer
                 </Typography>
-                <h3>30</h3>
+                <h1>{countTrainer}</h1>
                 {/* Add charts, data, or other content here */}
             </Paper>
             </Grid>
@@ -45,7 +113,7 @@ const HomeDashboard = () => {
                 <Typography variant="h6" gutterBottom>
                 Total Approved Trainee
                 </Typography>
-                <h3>30</h3>
+                <h1>{countApproveTrainee}</h1>
                 {/* Add charts, data, or other content here */}
             </Paper>
             </Grid>
@@ -57,7 +125,7 @@ const HomeDashboard = () => {
                 <Typography variant="h6" gutterBottom>
                 Total Approved Trainer
                 </Typography>
-                <h3>30</h3>
+                <h1>{countApproveTrainer}</h1>
                 {/* Add charts, data, or other content here */}
             </Paper>
             </Grid>
@@ -67,9 +135,9 @@ const HomeDashboard = () => {
                 {/* Your second dashboard section */}
                 <RemoveDoneSharpIcon style={{ fontSize: '2.5rem',  color: 'white' }}/>
                 <Typography variant="h6" gutterBottom>
-                Total Unapproved Trainee
+                Total Pending Trainee
                 </Typography>
-                <h3>30</h3>
+                <h1>{countPendinTrainee}</h1>
                 {/* Add charts, data, or other content here */}
             </Paper>
             </Grid>
@@ -79,9 +147,9 @@ const HomeDashboard = () => {
                 {/* Your third dashboard section */}
                 <RemoveDoneSharpIcon style={{ fontSize: '2.5rem',  color: 'white' }}/>
                 <Typography variant="h6" gutterBottom>
-                Total Unapproved Trainer
+                Total Pending Trainer
                 </Typography>
-                <h3>30</h3>
+                <h1>{countPendingTrainer}</h1>
                 {/* Add charts, data, or other content here */}
             </Paper>
             </Grid>

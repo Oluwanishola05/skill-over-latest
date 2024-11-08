@@ -64,23 +64,22 @@ span.navbar-text {
 .social-icon a:hover img {
  filter: brightness(0) saturate(100%) invert(0%) sepia(7%) saturate(98%) hue-rotate(346deg) brightness(95%) contrast(86%);
 }
-.navbar-text button {
-  font-weight: 700;
+.vvd  {
+  font-weight: 600;
   color: #001f2b;
-  border: 1px solid #001f2b;
+  
   padding: 10px 20px;
   font-size: 18px;
   margin-left: 18px;
  position: relative;
- background-color: transparent;
- transition: 0.3s ease-in-out;
+ 
 }
 
 .navbar-text button span {
     z-index: 1;
   }
 
-  .navbar-text button::before {
+  .vvd button::before {
   content: "";
   width: 0%;
   height: 100%;
@@ -91,7 +90,7 @@ span.navbar-text {
   z-index: -1;
   transition: 0.3s ease-in-out;
 }
-.navbar-text button:hover {
+.vvd:hover {
   color: white;
   background-color:lightblue;
   border: none;

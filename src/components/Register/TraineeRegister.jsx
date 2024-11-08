@@ -20,8 +20,8 @@ const TraineeRegister = () => {
     const [lastname, setLastName] = useState("")
     const [location, setLocation] = useState("")
     const [gender, setGender] = useState("")
-    const [dateofbirth, setDateOfBirth] = useState("")
-    const [telephone, setTelephone] = useState("")
+    const [dateofBirth, setDateOfBirth] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
     const [nin, setNIN] = useState("")
     
       const handleSubmit = async (e) => {
@@ -30,40 +30,42 @@ const TraineeRegister = () => {
             setLoading(true);
 
           // Make your API call here
-          const response = await fetch('https://2yrybhjzj4.execute-api.eu-west-2.amazonaws.com/signuptrainer', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+          const response = await axios.post('https://localhost:7051/api/TraineeUser/SignUpTrainee', {
               email,
               password, 
               firstname, 
               lastname, 
               location, 
               gender, 
-              dateofbirth, 
-              telephone, 
+              dateofBirth, 
+              phoneNumber, 
               nin
-            }),
           });
+
+          //console.log('API Response:', response.data);
+
+          const { responseCode, responseMessage, data } = response.data;
+         
     
-          if (response.ok) {
+          if (responseCode === 200) {
             // If login is successful, show SweetAlert2 success message
             Swal.fire({
               icon: 'success',
               title: 'Successfully Registered',
-              text: 'Please Login!',
+              text: responseMessage || 'Please Login!',
             });
+
+
+            navigate('/loginTrainee');
     
-            console.log(email, password);
+            //console.log(email, password);
 
           } else {
             // If login fails, show SweetAlert2 error message
             Swal.fire({
               icon: 'error',
               title: 'Registration Failed',
-              text: 'Invalid Details',
+              text: responseMessage || 'Invalid Details',
             });
 
             
@@ -71,6 +73,11 @@ const TraineeRegister = () => {
         } catch (error) {
           console.error('Error during registration:', error);
           // Handle other error cases if necessary
+          Swal.fire({
+            icon: 'error',
+            title: 'Registration Failed',
+            text: error || 'Invalid Details',
+          });
         } finally {
             setLoading(false);
           }
@@ -129,13 +136,13 @@ const TraineeRegister = () => {
 
                                 <Col lg='6' md='12'>
                                     <FormGroup className="forms" id="formGroup">
-                                        <input type="date" placeholder="Date Of Birth" value={dateofbirth} onChange={e=> setDateOfBirth(e.target.value)}/>
+                                        <input type="date" placeholder="Date Of Birth" value={dateofBirth} onChange={e=> setDateOfBirth(e.target.value)}/>
                                     </FormGroup>
                                 </Col>
 
                                 <Col lg='6' md='12'>
                                     <FormGroup className="forms" id="formGroup">
-                                        <input type="tel" placeholder="Telephone" value={telephone} onChange={e=> setTelephone(e.target.value)}/>
+                                        <input type="tel" placeholder="Telephone" value={phoneNumber} onChange={e=> setPhoneNumber(e.target.value)}/>
                                     </FormGroup>
                                 </Col>
 

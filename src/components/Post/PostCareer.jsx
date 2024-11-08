@@ -31,7 +31,7 @@ const PostCareer = () => {
 
                         <Form className="authForm" >
 
-                            <h4 className="log">POST CAREER</h4>
+                            <h4 className="log">POST CAREER NEWS</h4>
                             <Row className='Train'>
                                 <Col lg='6' md='12'>
                                     <FormGroup className="forms" id="formGroup">

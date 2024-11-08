@@ -2,26 +2,83 @@ import React, {useState} from 'react';
 import { Form, Button, Container, FormGroup, Row, Col } from 'react-bootstrap';
 import './traineeRegister.css';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 
 const TrainerRegister = () => {
 
-    //const [username, setUsername] = useState("")
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [firstname, setFirstName] = useState("")
     const [lastname, setLastName] = useState("")
     const [location, setLocation] = useState("")
     const [gender, setGender] = useState("")
-    const [dateofbirth, setDateOfBirth] = useState("")
-    const [telephone, setTelephone] = useState("")
+    const [dateofBirth, setDateOfBirth] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
     const [nin, setNIN] = useState("")
     
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        // Add your form submission logic here
-        console.log();
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            setLoading(true);
+
+          // Make your API call here
+          const response = await axios.post('https://localhost:7051/api/TrainerUser/SignUpTrainer', {
+              email,
+              password, 
+              firstname, 
+              lastname, 
+              location, 
+              gender, 
+              dateofBirth, 
+              phoneNumber, 
+              nin
+          });
+
+          //console.log('API Response:', response.data);
+
+          const { responseCode, responseMessage, data } = response.data;
+         
+    
+          if (responseCode === 200) {
+            // If login is successful, show SweetAlert2 success message
+            Swal.fire({
+              icon: 'success',
+              title: 'Successfully Registered',
+              text: responseMessage || 'Please Login!',
+            });
+
+
+            navigate('/loginTrainer');
+    
+            //console.log(email, password);
+
+          } else {
+            // If login fails, show SweetAlert2 error message
+            Swal.fire({
+              icon: 'error',
+              title: 'Registration Failed',
+              text: responseMessage || 'Invalid Details',
+            });
+
+            
+          }
+        } catch (error) {
+          console.error('Error during registration:', error);
+          // Handle other error cases if necessary
+          Swal.fire({
+            icon: 'error',
+            title: 'Registration Failed',
+            text: error || 'Invalid Details',
+          });
+        } finally {
+            setLoading(false);
+          }
       };
 
     return(
@@ -77,13 +134,13 @@ const TrainerRegister = () => {
 
                                 <Col lg='6' md='12'>
                                     <FormGroup className="forms" id="formGroup">
-                                        <input type="date" placeholder="Date Of Birth" value={dateofbirth} onChange={e=> setDateOfBirth(e.target.value)}/>
+                                        <input type="date" placeholder="Date Of Birth" value={dateofBirth} onChange={e=> setDateOfBirth(e.target.value)}/>
                                     </FormGroup>
                                 </Col>
 
                                 <Col lg='6' md='12'>
                                     <FormGroup className="forms" id="formGroup">
-                                        <input type="tel" placeholder="Telephone" value={telephone} onChange={e=> setTelephone(e.target.value)}/>
+                                        <input type="tel" placeholder="Telephone" value={phoneNumber} onChange={e=> setPhoneNumber(e.target.value)}/>
                                     </FormGroup>
                                 </Col>
 
@@ -92,8 +149,8 @@ const TrainerRegister = () => {
                                 </FormGroup>
 
                                 <div>
-                                    <button type="submit" className="btn__login" >
-                                        REGISTER
+                                <button type="submit" className="btn__login"  onClick={handleSubmit}>
+                                    {loading ? <CircularProgress size={24} thickness={5} style={{ color: '#fff' }}/> : 'REGISTER'}
                                     </button>
                                 </div>
 

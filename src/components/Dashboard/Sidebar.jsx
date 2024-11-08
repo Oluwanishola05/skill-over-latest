@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, FormControl, InputLabel,Select, MenuItem } from '@mui/material';
+import { Drawer, List, ListItem, ListItemText, ListItemIcon, FormControl, InputLabel,Select, MenuItem, ListItemButton, Menu } from '@mui/material';
 import { Link } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -29,74 +29,144 @@ const Sidebar = () => {
   //   setSelectedOption(event.target.value);
   // }
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [menuId, setMenuId] = useState(null);
+
+  // Generic open and close handlers
+  const handleMenuClick = (event, id) => {
+    setAnchorEl(event.currentTarget);
+    setMenuId(id);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setMenuId(null);
+  };
+  
+
   return (
 
     <>
     
     
 
-    <Drawer variant="persistent" open={true} anchor="left"  sx={{ bgcolor: '#2196F3', color: 'white', width: 255, flexShrink: 0, '& .MuiDrawer-paper': { width: 255, boxSizing: 'border-box'}}}>
+    <Drawer variant="persistent" open={true}  anchor="left"  sx={{ bgcolor: '#2196F3', color: 'white', width: 255, flexShrink: 0, '& .MuiDrawer-paper': { width: 255, boxSizing: 'border-box'}}}>
+      
       <List sx={{ marginTop: '60px' }}>
-        <ListItem button>
+
+        <ListItemButton>
           <ListItemIcon>
             <HomeIcon style={{ fontSize: '1.5rem'}}/>
           </ListItemIcon>
           <ListItemText primary="Home" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <DashboardIcon style={{ fontSize: '1.5rem'}}/>
-          </ListItemIcon>
-          <Link to='dashboard'><ListItemText primary="Dashboard" /></Link>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <InboxIcon style={{ fontSize: '1.5rem'}}/>
-          </ListItemIcon>
-          <Link to='dashboard/name'><ListItemText primary="Inbox" /></Link>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <PersonIcon  style={{ fontSize: '1.5rem'}}/>
-          </ListItemIcon>
-          <Link to='dashboard/getTrainer'><ListItemText primary="Get Approved Trainers" /></Link>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <AccountCircleIcon style={{ fontSize: '1.5rem'}}/>
-          </ListItemIcon>
-          <Link to='dashboard/getTrainee'><ListItemText primary="Get Approved Trainee" /></Link>
-        </ListItem>
-        <ListItem button>
+        </ListItemButton>
+
+        <Link to='dashboard'>
+          <ListItemButton >
+            <ListItemIcon>
+              <DashboardIcon style={{ fontSize: '1.5rem'}}/>
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItemButton>
+        </Link>
+
+        <Link to='dashboard/name'>
+          <ListItemButton >
+            <ListItemIcon>
+              <InboxIcon style={{ fontSize: '1.5rem'}}/>
+            </ListItemIcon>
+            <ListItemText primary="Inbox" />
+          </ListItemButton>
+        </Link>
+
+        {/* <Link to='dashboard/approveTrainers'>
+          <ListItemButton >
+            <ListItemIcon>
+              <PersonIcon  style={{ fontSize: '1.5rem'}}/>
+            </ListItemIcon>        
+            <ListItemText primary="Approved Trainers" />
+          </ListItemButton>
+        </Link> */}
+
+        <ListItemButton onClick={(e) => handleMenuClick(e, 'approveTrainers')}>
           <ListItemIcon>
             <PersonIcon style={{ fontSize: '1.5rem'}}/>
           </ListItemIcon>
-          <ListItemText primary="Get Unapproved Trainee" />
-        </ListItem>
-        <ListItem button>
+          <ListItemText primary="Approved Trainee/Trainer" />
+        </ListItemButton>
+        <Menu anchorEl={anchorEl} open={menuId === 'approveTrainers'} onClose={handleMenuClose}>
+          <Link to='dashboard/approveTrainees'>
+            <MenuItem onClick={handleMenuClose}>Approved Trainees</MenuItem>
+          </Link>
+          <Link to='dashboard/approveTrainers'>
+            <MenuItem onClick={handleMenuClose}>Approved Trainers</MenuItem>
+          </Link>
+        </Menu>
+
+        <ListItemButton onClick={(e) => handleMenuClick(e, 'pendingTrainees')}>
           <ListItemIcon>
-            <AccountCircleIcon style={{ fontSize: '1.5rem'}}/>
+            <PersonIcon style={{ fontSize: '1.5rem'}}/>
           </ListItemIcon>
-          <ListItemText primary="Get Unapproved Trainer" />
-        </ListItem>
-        <ListItem button>
+          <ListItemText primary="Pending Trainee/Trainer" />
+        </ListItemButton>
+        <Menu anchorEl={anchorEl} open={menuId === 'pendingTrainees'} onClose={handleMenuClose}>
+          <Link to='dashboard/pendingTrainee'>
+            <MenuItem onClick={handleMenuClose}>Pending Trainees</MenuItem>
+          </Link>
+          <Link to='dashboard/pendingTrainer'>
+            <MenuItem onClick={handleMenuClose}>Pending Trainers</MenuItem>
+          </Link>
+        </Menu>
+
+        <ListItemButton onClick={(e) => handleMenuClick(e, 'careerApproval')}>
+          <ListItemIcon>
+            <PersonIcon style={{ fontSize: '1.5rem'}}/>
+          </ListItemIcon>
+          <ListItemText primary="Career/Training Approval" />
+        </ListItemButton>
+        <Menu anchorEl={anchorEl} open={menuId === 'careerApproval'} onClose={handleMenuClose}>
+          <Link to=''>
+            <MenuItem onClick={handleMenuClose}>Training Approval</MenuItem>
+          </Link>
+          <Link to=''>
+            <MenuItem onClick={handleMenuClose}>Career Approval</MenuItem>
+          </Link>
+        </Menu>
+
+        <Link to='dashboard/mergeuser'>
+          <ListItemButton >
+            <ListItemIcon>
+              <HelpOutlineIcon style={{ fontSize: '1.5rem'}}/>
+            </ListItemIcon>
+            <ListItemText primary="Merge Users" />
+          </ListItemButton>
+        </Link>
+
+        <Link to='dashboard/hiring'>
+          <ListItemButton >
+            <ListItemIcon>
+              <HelpOutlineIcon style={{ fontSize: '1.5rem'}}/>
+            </ListItemIcon>
+            <ListItemText primary="Approve Job" />
+          </ListItemButton>
+        </Link>
+
+        
+
+        <ListItemButton >
           <ListItemIcon>
             <NotificationsIcon style={{ fontSize: '1.5rem'}}/>
           </ListItemIcon>
           <ListItemText primary="Notification" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <HelpOutlineIcon style={{ fontSize: '1.5rem'}}/>
-          </ListItemIcon>
-          <ListItemText primary="User Enquires" />
-        </ListItem>
-        <ListItem button>
+        </ListItemButton>
+
+       
+
+        <ListItemButton >
           <ListItemIcon>
             <SendIcon style={{ fontSize: '1.5rem'}} className="slanted-icon"/>
           </ListItemIcon>
           <Link to='dashboard/sendMessage'><ListItemText primary="Send Message" /></Link>
-        </ListItem>
+        </ListItemButton>
 
         
 
